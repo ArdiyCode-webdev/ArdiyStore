@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArdiyStore — Belanja Premium, Harga Terjangkau</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== LOGIN OVERLAY ===== -->
+<div id="loginOverlay">
+  <div class="login-bg-shapes">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="store-name">ArdiyStore</div>
+      <div class="store-tagline">Premium Shopping Experience</div>
+    </div>
+    <h2 class="login-title">Selamat Datang!</h2>
+    <p class="login-subtitle">Masuk untuk menikmati pengalaman belanja terbaik</p>
+
+    <div class="login-error" id="loginError">❌ Nickname atau password salah. Coba lagi.</div>
+
+    <div class="input-group">
+      <label>Nickname</label>
+      <input type="text" id="nicknameInput" placeholder="Masukkan nickname kamu..." autocomplete="off">
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="passwordInput" placeholder="Masukkan password...">
+      <span class="toggle-pw" id="togglePw">👁️</span>
+    </div>
+    <button class="btn-login" onclick="doLogin()">MASUK KE TOKO</button>
+    <p class="login-hint">Demo: Nickname <span>ardiy</span> · Password <span>ardiy123</span></p>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="mainApp">
+
+<!-- HEADER -->
+<header id="mainHeader">
+  <a href="#" class="header-logo">ArdiyStore</a>
+  <nav>
+    <a href="#hero">Beranda</a>
+    <a href="#products">Produk</a>
+    <a href="#cities">Kota</a>
+    <a href="#features">Keunggulan</a>
+  </nav>
+  <div class="header-actions">
+    <div class="user-badge">👤 <span id="userBadgeName">User</span></div>
+    <div class="cart-btn" onclick="toggleCart()">
+      🛒
+      <div class="cart-count" id="cartCount">0</div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">Keluar</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-eyebrow">ArdiyStore — Official Store</div>
+      <h1 class="hero-title">
+        Temukan Produk<br>
+        <span class="highlight">Terbaik</span><br>
+        Untuk Kamu
+      </h1>
+      <p class="hero-desc">
+        Belanja lebih dari 100 produk pilihan berkualitas tinggi dari seluruh Indonesia.
+        Pengiriman cepat, harga terjangkau, kepuasan pelanggan adalah prioritas kami.
+      </p>
+      <div class="hero-cta">
+        <a href="#products" class="btn-primary">🛍️ Belanja Sekarang</a>
+        <a href="#cities" class="btn-secondary">📍 Lihat Kota</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">100+</div>
+          <div class="stat-label">Produk</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">20+</div>
+          <div class="stat-label">Kota</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">50K+</div>
+          <div class="stat-label">Pelanggan</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">4.9⭐</div>
+          <div class="stat-label">Rating</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-banner-card">
+        <div class="banner-brand">ArdiyStore</div>
+        <div class="banner-sub">Your Premium Shopping Destination</div>
+        <div class="banner-promo">
+          <div class="promo-icon">🔥</div>
+          <div class="promo-text">
+            <div class="promo-label">Promo Spesial Hari Ini</div>
+            <div class="promo-value">DISKON HINGGA 50%</div>
+          </div>
+        </div>
+        <div class="banner-cities">
+          <span class="city-chip">📍 Jakarta</span>
+          <span class="city-chip">📍 Surabaya</span>
+          <span class="city-chip">📍 Bandung</span>
+          <span class="city-chip">📍 Bali</span>
+          <span class="city-chip">📍 Yogyakarta</span>
+          <span class="city-chip">📍 Medan</span>
+          <span class="city-chip">📍 Makassar</span>
+          <span class="city-chip">📍 Semarang</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marqueeTrack"></div>
+</div>
+
+<!-- FILTER + SEARCH -->
+<div class="filter-section" id="products">
+  <div class="filter-inner">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-btn active" onclick="filterProducts('all', this)">Semua</button>
+    <button class="filter-btn" onclick="filterProducts('fashion', this)">👗 Fashion</button>
+    <button class="filter-btn" onclick="filterProducts('elektronik', this)">📱 Elektronik</button>
+    <button class="filter-btn" onclick="filterProducts('kuliner', this)">🍜 Kuliner</button>
+    <button class="filter-btn" onclick="filterProducts('kecantikan', this)">💄 Kecantikan</button>
+    <button class="filter-btn" onclick="filterProducts('olahraga', this)">⚽ Olahraga</button>
+    <button class="filter-btn" onclick="filterProducts('rumah', this)">🏠 Rumah</button>
+    <button class="filter-btn" onclick="filterProducts('otomotif', this)">🚗 Otomotif</button>
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Cari produk..." oninput="searchProducts(this.value)" id="searchInput">
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="products-section">
+  <div class="section-header">
+    <div class="section-eyebrow">Koleksi ArdiyStore</div>
+    <h2 class="section-title">Produk <span class="italic">Unggulan</span> Kami</h2>
+    <p class="section-desc">Lebih dari 100 produk berkualitas tinggi, dikurasi khusus untuk memenuhi kebutuhan gaya hidup modern kamu.</p>
+  </div>
+  <div class="products-grid" id="productsGrid">
+    <div class="no-results" id="noResults">
+      <div class="no-results-icon">🔍</div>
+      <p>Produk tidak ditemukan</p>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="section-header">
+    <div class="section-eyebrow">Mengapa ArdiyStore</div>
+    <h2 class="section-title">Keunggulan <span class="italic">Kami</span></h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">🚚</span>
+      <div class="feature-title">Pengiriman Cepat</div>
+      <p class="feature-desc">Pengiriman ke seluruh Indonesia dalam 1-3 hari kerja dengan layanan ekspres tersedia.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔒</span>
+      <div class="feature-title">Transaksi Aman</div>
+      <p class="feature-desc">Sistem pembayaran terenkripsi SSL dengan berbagai metode pembayaran yang aman.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">💎</span>
+      <div class="feature-title">Produk Original</div>
+      <p class="feature-desc">Semua produk 100% original dan bergaransi resmi dari brand terpercaya.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🎁</span>
+      <div class="feature-title">Promo Eksklusif</div>
+      <p class="feature-desc">Nikmati promo, diskon, dan reward poin setiap hari khusus untuk member ArdiyStore.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CITIES -->
+<section class="cities-section" id="cities">
+  <div class="section-header">
+    <div class="section-eyebrow">Jangkauan Kami</div>
+    <h2 class="section-title">Tersedia di <span class="italic">Seluruh Indonesia</span></h2>
+    <p class="section-desc">ArdiyStore hadir melayani pelanggan dari Sabang sampai Merauke dengan layanan terbaik.</p>
+  </div>
+  <div class="cities-grid" id="citiesGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">ArdiyStore</div>
+        <p>Platform belanja online premium yang menghadirkan produk berkualitas tinggi dari seluruh penjuru Indonesia langsung ke tangan kamu.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Produk</h4>
+        <ul>
+          <li><a href="#">Fashion & Style</a></li>
+          <li><a href="#">Elektronik</a></li>
+          <li><a href="#">Kuliner</a></li>
+          <li><a href="#">Kecantikan</a></li>
+          <li><a href="#">Olahraga</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Layanan</h4>
+        <ul>
+          <li><a href="#">Pelacakan Pesanan</a></li>
+          <li><a href="#">Pengembalian Barang</a></li>
+          <li><a href="#">Garansi Produk</a></li>
+          <li><a href="#">Customer Service</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Perusahaan</h4>
+        <ul>
+          <li><a href="#">Tentang Kami</a></li>
+          <li><a href="#">Karir</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Kemitraan</a></li>
+          <li><a href="#">Kontak</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 ArdiyStore. Hak Cipta Dilindungi. Made with ❤️ in Indonesia</p>
+      <div class="footer-social">
+        <div class="social-btn">📘</div>
+        <div class="social-btn">📸</div>
+        <div class="social-btn">🐦</div>
+        <div class="social-btn">▶️</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div><!-- END mainApp -->
+
+<!-- CART OVERLAY + SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <div class="cart-title">🛒 Keranjang</div>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="cart-empty-icon">🛒</div>
+      <div class="cart-empty-text">Keranjang masih kosong</div>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <div class="cart-total-label">Total Belanja</div>
+      <div class="cart-total-price" id="cartTotal">Rp 0</div>
+    </div>
+    <button class="btn-checkout" onclick="checkout()">CHECKOUT SEKARANG</button>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="productModal">
+    <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('open')">✕</button>
+    <img src="" alt="" class="modal-img" id="modalImg">
+    <div class="modal-cat" id="modalCat"></div>
+    <div class="modal-name" id="modalName"></div>
+    <div class="modal-city" id="modalCity"></div>
+    <div class="modal-desc" id="modalDesc"></div>
+    <div class="modal-price" id="modalPrice"></div>
+    <button class="modal-add-btn" id="modalAddBtn">🛒 TAMBAH KE KERANJANG</button>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="testimonials-section" id="testimonials">
+  <div class="section-header">
+    <div class="section-eyebrow">Kata Mereka</div>
+    <h2 class="section-title">Ulasan <span class="italic">Pelanggan</span> Setia</h2>
+    <p class="section-desc">Lebih dari 50.000 pelanggan puas telah mempercayai ArdiyStore sebagai teman belanja mereka.</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Belanja di ArdiyStore sangat memuaskan! Produk datang tepat waktu, kualitasnya sesuai dengan deskripsi, dan packagingnya rapi banget. Pasti bakal belanja lagi!"</p>
+      <div class="testimonial-author"><div class="author-avatar">👩</div><div><div class="author-name">Sari Dewi</div><div class="author-city">📍 Jakarta</div></div></div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Produk elektronik yang saya beli benar-benar original dan berkualitas. Harganya juga lebih murah dibanding toko lain. Recommended banget untuk semua!"</p>
+      <div class="testimonial-author"><div class="author-avatar">👨</div><div><div class="author-name">Budi Santoso</div><div class="author-city">📍 Surabaya</div></div></div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Koleksi fashion di ArdiyStore keren-keren dan update terus. Customer servicenya ramah dan responsif. Pengirimannya juga super cepat sampai ke Bali!"</p>
+      <div class="testimonial-author"><div class="author-avatar">👩</div><div><div class="author-name">Ni Luh Ayu</div><div class="author-city">📍 Bali</div></div></div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Sudah 2 tahun belanja di ArdiyStore dan tidak pernah kecewa. Produk kuliner khas daerahnya enak dan autentik. Sangat membantu UMKM lokal!"</p>
+      <div class="testimonial-author"><div class="author-avatar">👨</div><div><div class="author-name">Ahmad Fauzi</div><div class="author-city">📍 Yogyakarta</div></div></div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Kecantikan produknya terjamin dan halal certified. Saya suka banget sama serum vitamin C-nya, hasilnya keliatan dalam 2 minggu pemakaian!"</p>
+      <div class="testimonial-author"><div class="author-avatar">👩</div><div><div class="author-name">Rina Maharani</div><div class="author-city">📍 Bandung</div></div></div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Peralatan olahraga yang dibeli sangat berkualitas. Harga terjangkau untuk kualitas premium. ArdiyStore memang terpercaya dan profesional!"</p>
+      <div class="testimonial-author"><div class="author-avatar">👨</div><div><div class="author-name">Rizky Pratama</div><div class="author-city">📍 Medan</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEWSLETTER ===== -->
+<section class="newsletter-section">
+  <div class="newsletter-inner">
+    <div class="newsletter-icon">📬</div>
+    <h2 class="newsletter-title">Dapatkan <span style="color:#D4AF37;font-style:italic">Promo Eksklusif</span></h2>
+    <p class="newsletter-desc">Daftar newsletter ArdiyStore dan dapatkan diskon 15% untuk pembelian pertama, plus update produk terbaru langsung ke email kamu.</p>
+    <div class="newsletter-form">
+      <input class="newsletter-input" type="email" placeholder="Masukkan email kamu...">
+      <button class="newsletter-btn" onclick="subscribeNewsletter()">DAFTAR</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BRANDS ===== -->
+<section class="brands-section">
+  <div class="brands-inner">
+    <div class="brands-label">Brand Partner Resmi ArdiyStore</div>
+    <div class="brands-row">
+      <div class="brand-pill">BATIK ARDIY</div>
+      <div class="brand-pill">TECHNO X</div>
+      <div class="brand-pill">NUSANTARA FOOD</div>
+      <div class="brand-pill">GLOW BEAUTY</div>
+      <div class="brand-pill">SPORT ELITE</div>
+      <div class="brand-pill">HOME LUXE</div>
+      <div class="brand-pill">MOTO PRO</div>
+      <div class="brand-pill">ARDIY EXCLUSIVE</div>
+      <div class="brand-pill">INDO CRAFT</div>
+      <div class="brand-pill">PREMIUM SELECT</div>
+    </div>
+  </div>
+</section>
+
+<!-- BACK TO TOP -->
+<div class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆</div>
+
+<!-- FLOATING PROMO BADGE -->
+<div class="floating-badge" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+  🔥 Flash Sale Hari Ini!
+</div>
+
+<script src="js/extra.js"></script>
+
+</body>
+</html>
